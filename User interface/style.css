@@ -1,0 +1,236 @@
+:root {
+    --main-bg-color: brown;
+    --my-height: 35px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+
+#video {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    z-index: 10;
+}
+
+
+
+.info-pane {
+    position: absolute;
+    opacity: 0.9;
+    z-index: 99;
+    background: black;
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    text-align: center;
+    padding: 10px;
+    height: var(--my-height);
+    line-height: calc(var(--my-height));
+}
+
+#distance {
+    top: 0;
+    left: 11%;
+    transform: translate(-50%, 0%);
+    width: 100px;
+}
+
+#signal {
+    top: 0;
+    left: 0;
+    width: 100px;
+}
+
+#speed {
+    top: 0;
+    right: 0;
+    width: 100px;
+
+}
+
+#battery {
+    top: 0;
+    right: 8%;
+    width: 100px;
+}
+
+#control-pane div {
+    position: absolute;
+    opacity: 0.4;
+    z-index: 99;
+    background: black;
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 40px;
+    text-align: center;
+    padding: 10px;
+    /* border-radius: 15px 15px 15px 15px; */
+    width: 100px;
+    height: 80px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+#forward {
+    bottom: 160px;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+#backward {
+    bottom: 50px;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+#left {
+    bottom: 80px;
+    left: 50%;
+    transform: translate(-190px);
+}
+
+#right {
+    bottom: 80px;
+    left: 50%;
+    transform: translate(70px);
+}
+
+
+#control-pane-camera div {
+    position: absolute;
+    opacity: 0.4;
+    z-index: 99;
+    background: rgba(68, 67, 67, 0.97);
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 30px;
+    text-align: center;
+    padding: 10px;
+    width: 80px;
+    height: 60px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#camera-up {
+    bottom: 125px;
+    right: 130px;
+}
+
+#camera-down {
+    bottom: 35px;
+    right: 130px;
+}
+
+#camera-left {
+    bottom: 35px;
+    right: 240px;
+}
+
+#camera-right {
+    bottom: 35px;
+    right: 20px;
+}
+
+
+#server {
+    display: block;
+    margin: 0% auto 2%;
+}
+
+#start {
+    display: inline-block;
+    margin: 0% auto 2%;
+}
+
+
+#stop {
+    display: inline-block;
+    margin: 0% auto 2%;
+}
+
+
+
+body {
+    background: rgba(241, 241, 249, 0.547);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+}
+
+body>header {
+    height: 55px;
+    width: 100%;
+    background: #00386B;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
+#logo {
+    height: 40px;
+    margin: auto 0 auto 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: url('obrazky/logo.png') no-repeat;
+    background-size: 40px 40px;
+}
+
+#logo>* {
+    margin: 0 0 0 50px;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+nav ul li {
+    padding: 0 25px;
+    margin: 0 5px;
+    font-size: 1em;
+    line-height: 4.3em;
+}
+
+nav ul a {
+    color: white;
+    padding: 8px 0;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+nav ul a:hover,
+.aktivni a {
+    border-bottom: 2px solid #EF6534;
+}
+
+.avatar {
+    float: right;
+    width: 300px;
+    padding-left: 10px;
+}
+
+.cleaner {
+    clear: both;
+}
+
+
+#control-pane {
+    display: none;
+}
+
+#control-pane-camera {
+    display: none;
+}

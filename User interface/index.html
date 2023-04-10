@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Martin-Robot</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Oswald&amp;subset=latin-ext" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" type="text/css" />
+
+
+    <script>
+
+        $(function () {
+
+            var UP = false
+            var DOWN = false
+            var LEFT = false
+            var RIGHT = false
+            //var cast_mic = document.getElementById("cast_mic").checked;
+
+            var dangerous_distance = 20;
+            var min_voltage = 50;
+            var ws = new WebSocket("ws://" + window.location.hostname + ":8889/ws");
+
+
+            $("#speed_slider").on("change", function () {
+                $("#speed_txt").html($(this).val() + " %");
+                if (ws) {
+                    console.log("Prohlížeč: Nová rychlost: " + $(this).val() + " %");
+                    ws.send("S" + $(this).val());
+                }
+            });
+
+            window.addEventListener("keydown", function (event) {
+
+                if (event.defaultPrevented) {
+                    return;
+                }
+
+                if (event.code === "ArrowDown") {
+                    DOWN = true
+                } else if (event.code === "ArrowUp") {
+                    UP = true
+                } else if (event.code === "ArrowLeft") {
+                    LEFT = true
+                } else if (event.code === "ArrowRight") {
+                    RIGHT = true
+                    //kamera
+                } else if (event.code === "KeyW") {
+                    ws.send("CU");
+                } else if (event.code === "KeyS") {
+                    ws.send("CD");
+                } else if (event.code === "KeyA") {
+                    ws.send("CL");
+                } else if (event.code === "KeyD") {
+                    ws.send("CR");
+                } else if (event.code === "KeyQ") {
+                    ws.send("CC");
+                }
+
+
+                if (UP && LEFT) {
+                    ws.send("LF")
+                }
+                else if (UP && RIGHT) {
+                    ws.send("RF")
+                }
+                else if (UP) {
+                    ws.send("F");
+                }
+                else if (DOWN && RIGHT) {
+                    ws.send("RB")
+                }
+                else if (DOWN && LEFT) {
+                    ws.send("LB")
+                }
+                else if (DOWN) {
+                    ws.send("B")
+                }
+                else if (LEFT) {
+                    ws.send("L")
+                }
+                else if (RIGHT) {
+                    ws.send("R")
+                }
+
+                event.preventDefault();
+            }, true);
+
+            window.addEventListener('keyup', function (event) {
+                if (event.code === "ArrowUp") {
+                    ws.send("X");
+                    UP = false
+                }
+                else if (event.code === "ArrowDown") {
+                    ws.send("X");
+                    DOWN = false
+                }
+                else if (event.code === "ArrowLeft") {
+                    LEFT = false
+                    if (UP) {
+                        ws.send("F");
+                    }
+
+                    else if (DOWN) {
+                        ws.send("B");
+                    }
+
+                    else {
+                        ws.send("X")
+                    }
+                }
+                else if (event.code === "ArrowRight") {
+                    RIGHT = false
+                    if (UP) {
+                        ws.send("F");
+                    }
+
+                    else if (DOWN) {
+                        ws.send("B");
+                    }
+
+                    else {
+                        ws.send("X")
+                    }
+                }
+            }, true);
+
+            $("#forward").mousedown(function () {
+                console.log("Prohlížeč: F");
+                ws.send("F");
+            });
+
+            $("#forward").mouseup(function () {
+                console.log("Prohlížeč: X");
+                ws.send("X");
+            });
+
+            $("#backward").mousedown(function () {
+                console.log("Prohlížeč: B");
+                ws.send("B");
+            });
+
+            $("#backward").mouseup(function () {
+                console.log("Prohlížeč: X");
+                ws.send("X");
+            });
+
+            $("#left").mousedown(function () {
+                console.log("Prohlížeč: L");
+                ws.send("L");
+            });
+
+            $("#left").mouseup(function () {
+                console.log("Prohlížeč: X");
+                ws.send("X");
+            });
+
+            $("#right").mousedown(function () {
+                console.log("Prohlížeč: R");
+                ws.send("R");
+            });
+
+            $("#right").mouseup(function () {
+                console.log("Prohlížeč: X");
+                ws.send("X");
+            });
+
+            $("#camera-up").mousedown(function () {
+                console.log("Prohlížeč: R");
+                ws.send("CU");
+            });
+
+            $("#camera-down").mousedown(function () {
+                console.log("Prohlížeč: R");
+                ws.send("CD");
+            });
+
+            $("#camera-right").mousedown(function () {
+                console.log("Prohlížeč: R");
+                ws.send("CR");
+            });
+
+            $("#camera-left").mousedown(function () {
+                console.log("Prohlížeč: R");
+                ws.send("Cl");
+            });
+
+            ws.onmessage = function (message) {
+                if (message.data.substring(0, 1) == "D") {
+                    var distance = parseInt(message.data.substring(1));
+                    $("#distance").html(distance + " cm");
+                    if (distance < dangerous_distance) {
+                        $("#distance").css("color", "red");
+                    }
+                    else {
+                        $("#distance").css("color", "white");
+                    }
+
+                }
+                else if (message.data.substring(0, 1) == "W") {
+                    var signal = parseInt(event.data.substring(1))
+                    $("#signal").html(signal + " dBm");
+                }
+                else if (message.data.substring(0, 1) == "V") {
+                    var voltage = parseInt(message.data.substring(1))
+                    //var voltage = message.data
+                    $("#battery").html(voltage + " %");
+                    if (voltage < min_voltage) {
+                        $("#battery").css("color", "red");
+                    }
+                    else {
+                        $("#battery").css("color", "aquamarine");
+                    }
+                }
+                else {
+                    console.log(message.data);
+                }
+            };
+        });
+
+
+        function mute() {
+            var remoteVideo = document.getElementById("v");
+            remoteVideo.muted = !remoteVideo.muted;
+        }
+
+
+        function togglePane(paneId, checkboxId) {
+            var menu = document.getElementById(paneId);
+            var checkbox = document.getElementById(checkboxId);
+
+            if (checkbox.checked) {
+                menu.style.display = "block";
+            } else {
+                menu.style.display = "none";
+            }
+        }
+
+    </script>
+
+
+    <script src='adapter.js'></script>
+    <script src='signalling.js'></script>
+    <script src='main.js'></script>
+
+
+</head>
+
+<body>
+    <header>
+
+        <nav>
+            <ul>
+
+                <div>
+                    <button id='start'
+                        title="If you do not see any video stream, make sure your browser supports the codec used within this demo (see the source code for details, or try Firefox or Chrome)">Start
+                    </button>
+                    <button id='stop'>Stop </button>
+
+                    <button type=button id="mute" onclick="mute();"
+                        title="mute or unmute remote audio source">Mute</button>
+
+                    <label>
+                        <input type="checkbox" id="remote_hw_vcodec" checked name="remote_hw_vcodec"
+                            value="remote_hw_vcodec"
+                            title="try to force the use of the hardware codec for both encoding and decoding if enabled and supported">H.264
+                        Codec
+                    </label>
+
+                    <label><input type="checkbox" onclick="singleselection('audio_cast', 'cast_mic');" id="cast_mic"
+                            name="audio_cast" value="microphone">microphone</label>
+
+                    <label><input type="checkbox" id="echo_cancellation" name="audio_processing"
+                            title="disable any audio processing when casting music" checked="">echo
+                        cancellation</label>
+                    <input type="checkbox" id="showControlPane"
+                        onchange="togglePane('control-pane', 'showControlPane')">
+                    <label for="showControlPane">show control pane</label>
+                    <input type="checkbox" id="showControlPaneCamera"
+                        onchange="togglePane('control-pane-camera', 'showControlPaneCamera')">
+                    <label for="showControlPane">show camera control pane</label>
+
+                </div>
+
+                <div id="signal" class="info-pane">0 dBm</div>
+                <div id="distance" class="info-pane">0 cm</div>
+                <div id="battery" class="info-pane">battery</div>
+                <div id="speed" class="info-pane"><span id="speed_txt">speed</span><br /><input type="range"
+                        id="speed_slider" min="0" max="100"></div>
+            </ul>
+        </nav>
+    </header>
+
+    <video id='v' playsinline autoplay></video>
+    <canvas id='c'></canvas>
+
+    <div id="control-pane">
+        <div id="forward">Forward</div>
+        <div id="backward">Back</div>
+        <div id="left">Left</div>
+        <div id="right">Right</div>
+    </div>
+
+    <div id="control-pane-camera">
+        <div id="camera-up">Up</div>
+        <div id="camera-down">Down</div>
+        <div id="camera-left">Left</div>
+        <div id="camera-right">Right</div>
+    </div>
+
+
+</body>
+
+</html>
