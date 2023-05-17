@@ -1,4 +1,4 @@
-#Open interactive robotics platform for home use 
+**Open interactive robotics platform for home use**
 
 ##Description
 
