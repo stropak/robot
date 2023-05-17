@@ -3,10 +3,10 @@ import busio
 from adafruit_bus_device.i2c_device import I2CDevice
 import struct
 
-""" třída slouží pro čtení napětí z voltmetru pomocí sběrnice I2C """
+""" this class is used to read the voltage from the voltmeter using the I2C bus """
 
 
-# nastavení adres I2C sběrnice pro čtení dat z voltmetru
+# setting I2C bus addresses for reading data from the voltmeter
 
 I2C_ADDRESS = 0x40
 REGISTER_BUS_VOLTAGE = 0x02
@@ -17,7 +17,7 @@ device = I2CDevice(i2c, I2C_ADDRESS)
 
 class Voltmeter:
 
-    # přečrtení napětí
+    # read the voltage
     def read_voltage(self):
         with device:
             device.write(bytes([REGISTER_BUS_VOLTAGE]))
@@ -27,7 +27,7 @@ class Voltmeter:
             voltage = voltage_raw * 1.25 / 1000.0
             return voltage
 
-    # výpočet nabití baterie v procnetech podle naměřeného napětí
+    # calculation of the battery charge in percent according to the measured voltage
     def get_battery_percent(self, min=9, max=11.5):
         voltage = self.read_voltage()
 
