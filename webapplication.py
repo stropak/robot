@@ -104,19 +104,15 @@ class WebSocketConnection(websocket.WebSocketHandler):
     def on_message(self, message):
 
         try:
-            # Znaky F, B, L, R a X slouží k řízení pásů, znaky CL, CR, CU, CD, CC slouží k otáčení kamery
+            # Characters F, B, L, R, RF, RB, LF, LB a X are for movement, characters CL, CR, CU, CD, CC are for camera movement
             if message == "F":
                 move.forward()
-                self.write_message("F")
              elif message == "B":
                 move.backward()
-                self.write_message("B")
             elif message == "L":
                 move.left()
-                self.write_message("L")
             elif message == "R":
                 move.right()
-                self.write_message("R")
             elif message == "LF":
                 move.turn_left()
             elif message == "RF":
@@ -127,7 +123,6 @@ class WebSocketConnection(websocket.WebSocketHandler):
                 move.turn_left_back()
             elif message == "X":
                 move.brake()
-                self.write_message("X")
             elif message == "CL":
                 camera.left()
             elif message == "CR":
