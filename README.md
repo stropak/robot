@@ -9,12 +9,12 @@ The project utilizes Raspberry Pi as the main hardware platform and Python for t
     
 **Application architecture**
 
-This repository contains the main python application for controlling the robot.
+This repository contains the main python application for controlling the robot and UV4l configuratin file. 
 
 The main part of the application is the webapplication.py file, where the WebSocketConnection class is located to ensure web communication, as well as the main application code.
 The other files represent individual modules for working with specific hardware components and contain classes of the same name.
 
-in the User interface folder you can find the web page for controlling the robot written with html and javascript and the files needed to use the UV4L and its configuration file.
+in the User interface folder you can find the HTML web page for controlling the robot and javasript files (from the official website of uv4l) 
 
 **Gamepad control**
 
