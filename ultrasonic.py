@@ -1,6 +1,7 @@
 from gpiozero import DistanceSensor
 from gpiozero.pins.pigpio import PiGPIOFactory
 
+""" the class is used to determine the distance using an ultrasonic sensor"""
 
 class Ultrasonic:
 
