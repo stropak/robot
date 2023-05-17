@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 
-""" třída umožňuje ovládat stejnosměrné motory pomocí driver boardu waveshare  """
+""" this class allows you to control DC motors using the waveshare driver board """
 
 
 class Motors:
