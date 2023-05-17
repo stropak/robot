@@ -2,10 +2,10 @@ from gpiozero import Servo
 from time import sleep
 from gpiozero.pins.pigpio import PiGPIOFactory
 
-""" třída slouží k ovládání servomotorů pro otáčení kamery  """
+""" this class is used to control servomotors for camera rotation """
 
 
-# úhel o který se servo posune v jednom kroku
+# the angle by which the servo moves in one step
 ANGLE = 0.08
 
 
@@ -14,7 +14,7 @@ class Servos:
     def __init__(self) -> None:
         FACTORY = PiGPIOFactory()
 
-        # piny serv
+        # servo pins
         S_HORIZONTAL_PIN = 14
         S_VERTICAL_PIN = 15
 
@@ -24,7 +24,7 @@ class Servos:
         self.servo_horizontal.value = 0
         self.servo_vertical.value = 0
 
-    # metody pro pohyb kamery
+    # methods for moving the camera
 
     def left(self):
         if (self.servo_horizontal.value < (0.9-ANGLE)):
